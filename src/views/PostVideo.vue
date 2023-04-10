@@ -4,6 +4,7 @@ import { onBeforeUnmount, ref, onMounted, reactive } from 'vue'
 import UploadCover from '../views/UploadCover.vue'
 import { getTags } from '../axios'
 import { postVideo } from '../axios'
+import { val } from 'dom7'
 
 
 // 模拟 ajax 异步获取内容
@@ -55,7 +56,7 @@ const getUploadCover = (raw) => {
 }
 
 //发布文章
-const postArticleClick = async () => {
+const postVideoClick = async () => {
     const vaildArr = []
     const title = videoTitle.value.trim()
     const tagid = categoryValue.value
@@ -71,26 +72,34 @@ const postArticleClick = async () => {
     if (fileRaw.value === null) {
         vaildArr.push('封面')
     }
+    if (videoRaw.value === null) {
+        vaildArr.push('视频')
+    }
     if (vaildArr.length == 0) {
         formData.append('title', title)
         formData.append('managerid', managerid)
         formData.append('tagid', tagid)
         formData.append('cover', fileRaw.value)
-        const result = await postArticle(formData)
+        formData.append('video', videoRaw.value)
+        // console.log(title, managerid, tagid, fileRaw.value, videoRaw.value)
+        videoProgress.value = true
+        const result = await postVideo(formData, (num) => {
+            videoProgressLoaded.value = num
+        })
         if (result) {
             ElMessage({
                 showClose: true,
-                message: '发布文章成功.',
+                message: '发布视频成功.',
                 type: 'success',
             })
         } else {
             ElMessage({
                 showClose: true,
-                message: '发布文章失败.',
+                message: '发布视频失败.',
                 type: 'error',
             })
         }
-        // console.log(result)
+        console.log(result)
     } else {
         ElMessage({
             message: `请完善${vaildArr.join('、')}`,
@@ -99,14 +108,22 @@ const postArticleClick = async () => {
     }
 }
 
-//上传视频
-const videoForm = reactive({
-    Video: '',
-    videoUploadPercent: '',
-    videoUploadId: '',
-})
-const videoFlag = ref(false)
-const uploadUrl = ref("#") //你要上传视频到你后台的地址
+const videoRaw = ref(null)
+
+const onVideoChange = (file, files) => {
+    videoRaw.value = file.raw
+    // console.log(file.raw)
+    // console.log(videoFiles)
+}
+
+const onVideoRemove = (file, files) => {
+    // console.log(videoFiles)
+    videoRaw.value = null
+}
+
+const videoProgress = ref(false)
+
+const videoProgressLoaded = ref(0)
 
 </script>
 
@@ -120,21 +137,28 @@ const uploadUrl = ref("#") //你要上传视频到你后台的地址
                 <el-input v-model="videoTitle" placeholder="请输入标题" />
             </el-col>
             <el-col :span="3">
-                <el-button @click="postArticleClick" style="height: 40px; width: 120px; font-size: 16px;"
+                <el-button @click="postVideoClick" style="height: 40px; width: 120px; font-size: 16px;"
                     type="primary">发布视频</el-button>
             </el-col>
         </el-row>
 
-        <div style="height: 600px;">
-            <el-upload class="avatar-uploader" :action="uploadUrl" :show-file-list="false" :on-success="handleVideoSuccess"
-                :on-progress="uploadVideoProcess" :before-upload="beforeUploadVideo">
-                <video v-if="videoForm.Video != '' && videoFlag == false" :src="videoForm.Video" class="avatar"
-                    controls="controls">您的浏览器不支持视频播放</video>
-                <i v-else-if="videoForm.Video == '' && videoFlag == false" class="el-icon-plus avatar-uploader-icon"></i>
-                <!-- 进度条 -->
-                <el-progress v-if="videoFlag == true" type="circle" :percentage="videoUploadPercent"
-                    style="margin-top:30px;"></el-progress>
+        <div class="uploadUpload">
+            <el-upload class="upload-demo" drag action="#" :auto-upload="false" limit="1"
+                :on-change="(file, files) => onVideoChange(file, files)"
+                :on-remove="(file, files) => onVideoRemove(file, files)">
 
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    拖拽文件 或者 <em>点击上传</em>
+                </div>
+                <template #tip>
+                    <div class="el-upload__tip">
+                        <!-- jpg/png files with a size less than 500kb -->
+                        上传一个不超过50MB的Mp4类型的视频
+                    </div>
+                </template>
+                <el-progress v-if="videoProgress" style="margin-top: 20px;" :text-inside="true" :stroke-width="24"
+                    :percentage="videoProgressLoaded" status="success" />
             </el-upload>
         </div>
 
@@ -194,6 +218,13 @@ const uploadUrl = ref("#") //你要上传视频到你后台的地址
         div {
             text-align: center;
         }
+    }
+
+    .uploadUpload {
+        margin-top: 100px;
+        height: 300px;
+        padding-left: 100px;
+        padding-right: 100px;
     }
 
     .footer {
