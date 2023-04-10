@@ -49,3 +49,32 @@ export const postVideo = async (data, cb) => {
         return false
     }
 }
+
+export const getAllArticle = async (pageSize, currentPage) => {
+    try {
+        const response = await axios.get('/api/article/all', {
+            params: {
+                pagesize: pageSize,
+                currentpage: currentPage,
+            },
+        })
+        if (response.data.success) {
+            return response.data.data
+        } else {
+            return null
+        }
+    } catch (error) {
+        // console.error(error)
+        return false
+    }
+}
+
+export const delArticle = async (id) => {
+    try {
+        const response = await axios.delete(`/api/article/${id}`)
+        return response.data.success
+    } catch (error) {
+        // console.error(error)
+        return false
+    }
+}
