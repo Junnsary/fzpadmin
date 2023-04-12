@@ -1,10 +1,13 @@
 <script setup>
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { onBeforeUnmount, ref, shallowRef, onMounted, reactive } from 'vue'
+import { onBeforeUnmount, ref, shallowRef, onMounted, reactive, nextTick } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import UploadCover from '../views/UploadCover.vue'
 import { getTags } from '../axios'
 import { postArticle } from '../axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
@@ -128,6 +131,7 @@ const categoryValue = ref('')
 
 
 const typeChange = async () => {
+    categoryValue.value = ''
     // 获取标签
     const result = await getTags('article', typeValue.value)
     const data = result.data
@@ -136,8 +140,6 @@ const typeChange = async () => {
         categories.push({ value: c.id, label: c.name })
     }
 }
-
-
 
 const fileRaw = ref(null)
 
@@ -183,6 +185,14 @@ const postArticleClick = async () => {
                 message: '发布文章成功.',
                 type: 'success',
             })
+            //重置
+            // articleTitle.value = ''
+            // valueHtml.value = ''
+            // categoryValue.value = ''
+            // typeValue.value = ''
+            // forceRerender()
+            router.push('/postsuccess/article')
+
         } else {
             ElMessage({
                 showClose: true,
@@ -199,7 +209,15 @@ const postArticleClick = async () => {
         })
     }
 }
+//重新渲染
+const renderComponent = ref(true)
 
+const forceRerender = () => {
+    renderComponent.value = false
+    nextTick(() => {
+        renderComponent.value = true
+    })
+}
 </script>
 
 <template>
@@ -220,7 +238,7 @@ const postArticleClick = async () => {
         <div style="border: 1px solid #ccc;">
             <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
                 :mode="mode" />
-            <Editor style="height: 650px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
+            <Editor style="height: 580px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
                 :mode="mode" @onCreated="handleCreated" />
         </div>
 
@@ -253,7 +271,8 @@ const postArticleClick = async () => {
                             <p>上传封面：</p>
                         </el-col>
                         <el-col :span="20">
-                            <UploadCover :fileRaw="fileRaw" @uploadCover="getUploadCover"></UploadCover>
+                            <UploadCover v-if="renderComponent" :fileRaw="fileRaw" @uploadCover="getUploadCover">
+                            </UploadCover>
                         </el-col>
                     </el-row>
                 </el-col>
@@ -265,11 +284,10 @@ const postArticleClick = async () => {
 <style lang="scss" scoped>
 .container {
     display: flex;
-    min-width: 1000px !important;
+    width: 100% !important;
+    min-width: 800px;
     height: 100%;
-    min-height: 1000px !important;
     flex-direction: column;
-    padding: 10px;
     box-sizing: border-box;
 
     .title {

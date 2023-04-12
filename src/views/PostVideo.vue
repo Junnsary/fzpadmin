@@ -1,23 +1,13 @@
 <script setup>
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { onBeforeUnmount, ref, onMounted, reactive } from 'vue'
+import { onBeforeUnmount, ref, onMounted, reactive, watch } from 'vue'
 import UploadCover from '../views/UploadCover.vue'
 import { getTags } from '../axios'
 import { postVideo } from '../axios'
 import { val } from 'dom7'
+import { useRouter } from 'vue-router'
 
-
-// 模拟 ajax 异步获取内容
-onMounted(async () => {
-
-})
-
-
-// 组件销毁时，也及时销毁编辑器
-onBeforeUnmount(() => {
-
-})
-
+const router = useRouter()
 
 //标题
 const videoTitle = ref('')
@@ -37,6 +27,7 @@ const typeValue = ref('')
 const categories = reactive([])
 const categoryValue = ref('')
 const typeChange = async () => {
+    categoryValue.value = ''
     // 获取标签
     const result = await getTags('video', typeValue.value)
     const data = result.data
@@ -92,6 +83,7 @@ const postVideoClick = async () => {
                 message: '发布视频成功.',
                 type: 'success',
             })
+            // router.push('/videomanager')
         } else {
             ElMessage({
                 showClose: true,
@@ -124,6 +116,16 @@ const onVideoRemove = (file, files) => {
 const videoProgress = ref(false)
 
 const videoProgressLoaded = ref(0)
+
+watch(videoProgressLoaded, (newValue, oldValue) => {
+    console.log('old:', oldValue)
+    console.log('new:', newValue)
+    if (newValue.toString() === '100') {
+        setTimeout(() => {
+            router.push('/postsuccess/video')
+        }, 1500);
+    }
+})
 
 </script>
 
@@ -203,12 +205,11 @@ const videoProgressLoaded = ref(0)
 <style lang="scss" scoped>
 .container {
     display: flex;
-    min-width: 1000px !important;
+    min-width: 100%;
     height: 100%;
-    min-height: 1000px !important;
     flex-direction: column;
-    padding: 10px;
     box-sizing: border-box;
+    justify-content: space-between;
 
     .title {
         height: 50px;
@@ -228,7 +229,7 @@ const videoProgressLoaded = ref(0)
     }
 
     .footer {
-        height: 120px;
+        height: 140px;
         margin-top: 20px;
 
         .send {

@@ -1,17 +1,16 @@
 <template>
   <div class="layout">
-    <el-container v-if="state.showMenu" class="container">
+    <el-container v-if="showLayout" class="container">
       <el-aside class="aside">
         <div class="head">
           <div>
-            <img src="//s.weituibao.com/1582958061265/mlogo.png" alt="logo">
+            <img style="width: 25px;height:25px;" src="@assets/system.png">
             <span>后台管理</span>
           </div>
         </div>
         <div class="line" />
-        <el-menu background-color="#222832" text-color="#fff" :router="true" :default-openeds="state.defaultOpen"
-          :default-active='state.currentPath'>
-          <el-menu-item index="1">
+        <el-menu background-color="#222832" text-color="#fff" :router="true">
+          <el-menu-item index="/index">
             <span>首页</span>
           </el-menu-item>
           <el-sub-menu index="2">
@@ -36,7 +35,7 @@
               <el-menu-item index="/articlemanager"><el-icon>
                   <Picture />
                 </el-icon>已发布的文章</el-menu-item>
-              <el-menu-item index="/viedeomanager"><el-icon>
+              <el-menu-item index="/videomanager"><el-icon>
                   <StarFilled />
                 </el-icon>已发布的视频</el-menu-item>
             </el-menu-item-group>
@@ -49,9 +48,9 @@
               <el-menu-item index="/tagmanager"><el-icon>
                   <Menu />
                 </el-icon>标签管理</el-menu-item>
-              <el-menu-item index="/usermanager"><el-icon>
+              <!-- <el-menu-item index="/usermanager"><el-icon>
                   <Goods />
-                </el-icon>用户管理</el-menu-item>
+                </el-icon>用户管理</el-menu-item> -->
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="5">
@@ -59,7 +58,7 @@
               <span>系统管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/modifpasswd"><el-icon>
+              <el-menu-item index="/adminpasswd"><el-icon>
                   <Lock />
                 </el-icon>修改密码</el-menu-item>
             </el-menu-item-group>
@@ -67,9 +66,14 @@
         </el-menu>
       </el-aside>
       <el-container class="content">
-        <router-view />
+        <Header />
+        <div class="main">
+          <router-view />
+        </div>
+        <Footer />
       </el-container>
     </el-container>
+
     <!-- if是进入仪表盘，else是进入到登录页面 -->
     <el-container v-else class="container">
       <router-view />
@@ -78,45 +82,30 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-// import Header from '@/components/Header.vue'
-// import Footer from '@/components/Footer.vue'
-// import { localGet, pathMap } from '@/utils'
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import { useLoginStore } from './store/UseLoginStore'
+import { getLoginInfo } from './utils/loginInfo'
 
-const noMenu = ['/login']
+const showLayout = ref(false)
+
 const router = useRouter()
-const state = reactive({
-  showMenu: true,
-  defaultOpen: ['1', '2', '3', '4'],
-  currentPath: '/',
-})
 
 router.afterEach((to, from) => {
-  state.showMenu = !noMenu.includes(to.path)
+  // if (to.path)
+  showLayout.value = !(to.path === '/login')
 })
 
-router.beforeEach((to, from, next) => {
-  next()
-  // if (to.path == '/login') {
-  //   // 如果路径是 /login 则正常执行
-  //   next()
-  // } else {
-  //   // 如果不是 /login，判断是否有 token
-  //   if (!localGet('token')) {
-  //     // 如果没有，则跳至登录页面
-  //     next({ path: '/login' })
-  //   } else {
-  //     // 否则继续执行
-  //     next()
-  //   }
-  // }
-  // state.currentPath = to.path
-  // document.title = pathMap[to.name]
-})
 </script>
 
 <style scoped>
+.main {
+  height: 100% !important;
+  padding: 20px;
+}
+
 .layout {
   min-height: 100vh;
   background-color: #ffffff;

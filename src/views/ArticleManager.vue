@@ -1,81 +1,82 @@
 <template>
-    <div class="container">
-        <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
-            :cell-style="{ textAlign: 'center' }">
-            <el-table-column label="编号">
-                <template #default="scope">
-                    <span>{{ scope.row.id }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="标题">
-                <template #default="scope">
-                    <span>{{ scope.row.title }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="内容">
-                <template #default="scope">
-                    <el-button @click="previewCotent(scope.row.content)" size="small" type="primary">查看内容</el-button>
-                    <!-- <span>{{ scope.row.content }}</span> -->
-                </template>
-            </el-table-column>
-            <el-table-column label="创建时间">
-                <template #default="scope">
-                    <span>{{ scope.row.created_at }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="更新时间">
-                <template #default="scope">
-                    <span>{{ scope.row.updated_at }}</span>
-                </template>
-            </el-table-column>
-            <!-- <el-table-column label="状态">
+    <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
+        :cell-style="{ textAlign: 'center' }">
+        <el-table-column label="编号">
+            <template #default="scope">
+                <span>{{ scope.row.id }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="标题">
+            <template #default="scope">
+                <span>{{ scope.row.title }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="内容">
+            <template #default="scope">
+                <el-button @click="previewCotent(scope.row.content)" size="small" type="primary">查看内容</el-button>
+                <!-- <span>{{ scope.row.content }}</span> -->
+            </template>
+        </el-table-column>
+        <el-table-column label="创建时间">
+            <template #default="scope">
+                <span>{{ scope.row.created_at }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="更新时间">
+            <template #default="scope">
+                <span>{{ scope.row.updated_at }}</span>
+            </template>
+        </el-table-column>
+        <!-- <el-table-column label="状态">
                 <template #default="scope">
                     <span>{{ scope.row.status }}</span>
                 </template>
             </el-table-column> -->
-            <el-table-column label="分类">
-                <template #default="scope">
-                    <span>{{ scope.row.type }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="标签">
-                <template #default="scope">
-                    <el-tag>{{ scope.row.tag }}</el-tag>
-                </template>
-            </el-table-column>
-            <el-table-column label="封面">
-                <template #default="scope">
-                    <!-- <span>{{ scope.row.cover }}</span> -->
-                    <el-image style=" height: 30px" :src="scope.row.cover" :zoom-rate="1.2" :preview-teleported="true"
-                        :preview-src-list="[scope.row.cover]" :initial-index="0" fit="cover" />
-                </template>
-            </el-table-column>
-            <el-table-column label="操作">
-                <template #default="scope">
-                    <el-popconfirm title="确认删除？" @confirm="confirmDelete(scope.row)">
-                        <template #reference>
-                            <el-button size="small" type="danger">删除</el-button>
-                        </template>
-                    </el-popconfirm>
+        <el-table-column label="分类">
+            <template #default="scope">
+                <span>{{ scope.row.type }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="标签">
+            <template #default="scope">
+                <el-tag>{{ scope.row.tag }}</el-tag>
+            </template>
+        </el-table-column>
+        <el-table-column label="封面">
+            <template #default="scope">
+                <!-- <span>{{ scope.row.cover }}</span> -->
+                <el-image style=" height: 30px" :src="scope.row.cover" :zoom-rate="1.2" :preview-teleported="true"
+                    :preview-src-list="[scope.row.cover]" :initial-index="0" fit="cover" />
+            </template>
+        </el-table-column>
+        <el-table-column label="操作">
+            <template #default="scope">
+                <el-popconfirm title="确认删除？" @confirm="confirmDelete(scope.row)">
+                    <template #reference>
+                        <el-button size="small" type="danger">删除</el-button>
+                    </template>
+                </el-popconfirm>
 
-                </template>
-            </el-table-column>
-        </el-table>
+            </template>
+        </el-table-column>
+    </el-table>
+    <div style="display: flex; justify-content: center;">
         <el-pagination @current-change="changePage" background :default-page-size="pagesize"
             layout="prev, pager, next, total" :total="total" />
 
-        <!-- 对话框 -->
-        <el-dialog v-model="dialogVisible" title="文章内容" width="50%" :before-close="handleClose" draggable top="8vh">
-            <span v-html="artilceContent"></span>
-            <template #footer>
-                <span class="dialog-footer">
-                    <el-button type="primary" @click="dialogVisible = false">
-                        确定
-                    </el-button>
-                </span>
-            </template>
-        </el-dialog>
     </div>
+
+    <!-- 对话框 -->
+    <el-dialog v-model="dialogVisible" title="文章内容" width="50%" :before-close="handleClose" draggable top="8vh">
+        <span v-html="artilceContent"></span>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">
+                    确定
+                </el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
   
 <script setup>
@@ -93,6 +94,7 @@ const getArticlesTotal = async (size, page) => {
     const result = await getAllArticle(size, page)
     // console.log(result)
     articleTable.splice(0, articleTable.length)
+    console.log(result.articleList)
     result.articleList.forEach(element => {
         // console.log(typeof element.created_at)  string
         console.log()
@@ -164,10 +166,8 @@ const changePage = (num) => {
   
 
 <style lang="scss" scoped>
-.container {
-    display: flex;
-    padding: 40px;
-    box-sizing: border-box;
-    flex-direction: column;
-}
+// .container {
+//     display: flex;
+//     flex-direction: column;
+// }
 </style>
