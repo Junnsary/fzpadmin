@@ -6,6 +6,7 @@ import UploadCover from '../views/UploadCover.vue'
 import { getTags } from '../axios'
 import { postArticle } from '../axios'
 import { useRouter } from 'vue-router'
+import { getLoginInfo } from '../utils/loginInfo'
 
 const router = useRouter()
 
@@ -151,11 +152,12 @@ const getUploadCover = (raw) => {
 
 //发布文章
 const postArticleClick = async () => {
+    const adminInfo = getLoginInfo()
     const vaildArr = []
     const title = articleTitle.value.trim()
     const content = valueHtml.value.trim()
     const tagid = categoryValue.value
-    const managerid = 'admin'
+    const managerid = adminInfo.id
     const formData = new FormData()
     // 检查
     if (title.length == 0) {

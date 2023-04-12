@@ -6,6 +6,7 @@ import { getTags } from '../axios'
 import { postVideo } from '../axios'
 import { val } from 'dom7'
 import { useRouter } from 'vue-router'
+import { getLoginInfo } from '../utils/loginInfo'
 
 const router = useRouter()
 
@@ -48,10 +49,11 @@ const getUploadCover = (raw) => {
 
 //发布文章
 const postVideoClick = async () => {
+    const adminInfo = getLoginInfo()
     const vaildArr = []
     const title = videoTitle.value.trim()
     const tagid = categoryValue.value
-    const managerid = 'admin'
+    const managerid = adminInfo.id
     const formData = new FormData()
     // 检查
     if (title.length == 0) {

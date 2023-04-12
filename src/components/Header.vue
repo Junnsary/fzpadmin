@@ -51,7 +51,7 @@ onMounted(() => {
   state.LoginInfo = getLoginInfo()
 })
 
-const name = ref('')
+const name = ref('首页')
 
 router.afterEach((to, from) => {
   console.log('to.name', to.name)
