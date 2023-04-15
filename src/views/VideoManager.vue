@@ -93,7 +93,7 @@ const getVideosTotal = async (size, page) => {
             status: element.status,
             type: trunKnowlegdeCase(element.tag.category),
             tag: element.tag.name,
-            cover: `/image/${element.cover}`
+            cover: `/uploads/images/${element.cover}`
         })
     });
     total.value = result.total
@@ -143,7 +143,7 @@ const previewCotent = (content, cover) => {
     dialogVisible.value = true
     //改变视频的播放源
     const BASE_URL = "http://localhost:3000/uploads/videos/"
-    options.src = `${BASE_URL}${content}`
+    options.src = `/uploads/videos/${content}`
     // options.value = `${BASE_URL}${cover}`
 }
 

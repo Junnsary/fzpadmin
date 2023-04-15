@@ -29,11 +29,15 @@ export default defineConfig({
                 changeOrigin: true,
                 // rewrite: (path) => path.replace(/^\/api/, ''),
             },
-            '/image': {
-                target: 'http://localhost:3000/uploads/images/',
+            '/uploads/': {
+                target: 'http://localhost:3000',
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/image/, ''),
+                // rewrite: (path) => path.replace(/^\/image/, ''),
             },
         },
+    },
+    build: {
+        outDir: 'fzpadmin_dist',
+        emptyOutDir: true,
     },
 })

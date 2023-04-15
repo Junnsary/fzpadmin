@@ -107,7 +107,7 @@ const getArticlesTotal = async (size, page) => {
             status: element.status,
             type: trunKnowlegdeCase(element.tag.category),
             tag: element.tag.name,
-            cover: `/image/${element.cover}`
+            cover: `/uploads/images/${element.cover}`
         })
     });
     total.value = result.total
