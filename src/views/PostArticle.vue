@@ -26,7 +26,10 @@ onMounted(async () => {
 })
 
 const toolbarConfig = {}
-const editorConfig = { placeholder: '请输入内容...', MENU_CONF: [] }
+const editorConfig = {
+    placeholder: '请输入内容...', MENU_CONF: [],
+    withCredentials: true,
+}
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
