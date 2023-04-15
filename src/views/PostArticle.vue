@@ -65,7 +65,7 @@ editorConfig.MENU_CONF['uploadImage'] = {
     // },
 
     // 将 meta 拼接到 url 参数中，默认 false
-    metaWithUrl: false,
+    // metaWithUrl: false,
 
     // 自定义增加 http  header
     // headers: {
@@ -74,7 +74,7 @@ editorConfig.MENU_CONF['uploadImage'] = {
     // },
 
     // 跨域是否传递 cookie ，默认为 false
-    withCredentials: true,
+    // withCredentials: true,
 
     // 超时时间，默认为 10 秒
     timeout: 5 * 1000, // 5 秒
