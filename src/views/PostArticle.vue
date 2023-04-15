@@ -83,6 +83,27 @@ editorConfig.MENU_CONF['uploadImage'] = {
     onBeforeUpload(file) { // TS 语法
         // onBeforeUpload(file) {    // JS 语法
         // file 选中的文件，格式如 { key: file }
+        // console.log(file)
+
+        // const size = 1024 * 1024 * 5
+        // const type = ['image/jpeg', 'image/jpg', 'image/png']
+
+        // if (!type.includes(file.type)) {
+        //     ElMessage({
+        //         message: '文件类型错误，请重新上传jpg,png,jpeg类型图片',
+        //         type: 'warning',
+        //     })
+        //     return false
+        // } else if (file.size > size) {
+        //     ElMessage({
+        //         message: '文件过大，请上传小于5M的文件',
+        //         type: 'warning',
+        //     })
+        //     return false
+        // } else {
+        //     return file
+        // }
+
         return file
         // 可以 return
         // 1. return file 或者 new 一个 file ，接下来将上传
@@ -99,7 +120,10 @@ editorConfig.MENU_CONF['uploadImage'] = {
     // 单个文件上传成功之后
     onSuccess(file, res) {  // TS 语法
         // onSuccess(file, res) {          // JS 语法
-        console.log(`${file.name} 上传成功`, res)
+        ElMessage({
+            message: '上传图片成功',
+            type: 'success',
+        })
     },
 
     // 单个文件上传失败
@@ -237,7 +261,7 @@ const forceRerender = () => {
             </el-col>
         </el-row>
 
-        <div style="border: 1px solid #ccc;">
+        <div style="border: 1px solid #ccc; ">
             <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
                 :mode="mode" />
             <Editor style="height: 580px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"

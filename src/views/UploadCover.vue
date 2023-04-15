@@ -1,6 +1,7 @@
 <template>
     <el-upload action="#" list-type="picture-card" :auto-upload="false" limit="1" :disabled="disabledUpload"
-        :on-change="(file, files) => changeUpload(file, files)">
+        :on-change="(file, files) => changeUpload(file, files)" accept=".jpg,.png,.jpeg">
+
         <el-icon>
             <Plus />
         </el-icon>
@@ -41,13 +42,30 @@ const disabledUpload = ref(false)
 let fileList = []
 
 const changeUpload = (file, files) => {
-    fileList = files
-    // console.log(fileList)
-    // console.log(files)
+    /**
+     * 先判断类型，类型对了，就判断大小
+     */
+    console.log(file)
+    const size = 1024 * 1024 * 5
+    const type = ['image/jpeg', 'image/jpg', 'image/png']
 
-    // console.log(file.raw)
-    disabledUpload.value = true
-    emit('uploadCover', file.raw)
+    if (!type.includes(file.raw.type)) {
+        files.splice(0, files.length)
+        ElMessage({
+            message: '文件类型错误，请重新上传jpg,png,jpeg类型图片',
+            type: 'warning',
+        })
+    } else if (file.size > size) {
+        files.splice(0, files.length)
+        ElMessage({
+            message: '文件过大，请上传小于5M的文件',
+            type: 'warning',
+        })
+    } else {
+        fileList = files
+        disabledUpload.value = true
+        emit('uploadCover', file.raw)
+    }
 }
 
 const handleRemove = (file) => {
@@ -68,6 +86,12 @@ const handlePictureCardPreview = (file) => {
     dialogVisible.value = true
 }
 
+
+const uploadBefore = (file) => {
+    console.log(file)
+    console.log(123)
+    return true
+}
 
 
 </script>

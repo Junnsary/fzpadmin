@@ -105,9 +105,26 @@ const postVideoClick = async () => {
 const videoRaw = ref(null)
 
 const onVideoChange = (file, files) => {
-    videoRaw.value = file.raw
-    // console.log(file.raw)
-    // console.log(videoFiles)
+
+    console.log(file)
+    const size = 1024 * 1024 * 100
+    const type = ['video/mp4']
+
+    if (!type.includes(file.raw.type)) {
+        files.splice(0, files.length)
+        ElMessage({
+            message: '文件类型错误，请重新上传 mp4类型的视频',
+            type: 'warning',
+        })
+    } else if (file.size > size) {
+        files.splice(0, files.length)
+        ElMessage({
+            message: '文件过大，请上传小于100M的文件',
+            type: 'warning',
+        })
+    } else {
+        videoRaw.value = file.raw
+    }
 }
 
 const onVideoRemove = (file, files) => {
@@ -149,7 +166,7 @@ watch(videoProgressLoaded, (newValue, oldValue) => {
         <div class="uploadUpload">
             <el-upload class="upload-demo" drag action="#" :auto-upload="false" limit="1"
                 :on-change="(file, files) => onVideoChange(file, files)"
-                :on-remove="(file, files) => onVideoRemove(file, files)">
+                :on-remove="(file, files) => onVideoRemove(file, files)" accept=".mp4">
 
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
