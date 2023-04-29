@@ -149,7 +149,7 @@ editorConfig.MENU_CONF['uploadImage'] = {
  */
 
 const typies = reactive([
-    { value: 'knowledge', label: '知识区' },
+    { value: 'knowledge', label: '学习区' },
     { value: 'case', label: '案例区' }
 ])
 const typeValue = ref('')

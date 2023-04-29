@@ -25,12 +25,12 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://localhost:3000',
+                target: 'http://47.120.37.7:3000',
                 changeOrigin: true,
                 // rewrite: (path) => path.replace(/^\/api/, ''),
             },
             '/uploads/': {
-                target: 'http://localhost:3000',
+                target: 'http://47.120.37.7:3000',
                 changeOrigin: true,
                 // rewrite: (path) => path.replace(/^\/image/, ''),
             },

@@ -11,11 +11,11 @@
         <div class="line" />
         <el-menu background-color="#222832" text-color="#fff" :router="true">
           <el-menu-item index="/index">
-            <span>首页</span>
+            <span>平台数据</span>
           </el-menu-item>
           <el-sub-menu index="2">
             <template #title>
-              <span>发布</span>
+              <span>发布管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/postarticle"><el-icon>
@@ -29,15 +29,15 @@
 
           <el-sub-menu index="3">
             <template #title>
-              <span>管理数据</span>
+              <span>数据管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/articlemanager"><el-icon>
                   <Picture />
-                </el-icon>已发布的文章</el-menu-item>
+                </el-icon>管理文章</el-menu-item>
               <el-menu-item index="/videomanager"><el-icon>
                   <StarFilled />
-                </el-icon>已发布的视频</el-menu-item>
+                </el-icon>管理视频</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="4">
@@ -60,7 +60,7 @@
             <el-menu-item-group>
               <el-menu-item index="/adminpasswd"><el-icon>
                   <Lock />
-                </el-icon>修改密码</el-menu-item>
+                </el-icon>修改系统密码</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
