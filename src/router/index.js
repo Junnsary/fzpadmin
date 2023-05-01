@@ -43,6 +43,21 @@ const routes = [
         name: 'questionmanagement',
         component: () => import('../views/QuestionManagement.vue'),
     },
+    {
+        path: '/posttopic',
+        name: 'posttopic',
+        component: () => import('../views/PostTopic.vue'),
+    },
+    {
+        path: '/topicmanagement',
+        name: 'topicmanagement',
+        component: () => import('../views/TopicManagement.vue'),
+    },
+    {
+        path: '/topictypemanagement',
+        name: 'topictypemanagement',
+        component: () => import('../views/TopicTypeManagement.vue'),
+    },
 ]
 
 const router = createRouter({

@@ -19,11 +19,14 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/postarticle"><el-icon>
-                  <Odometer />
+                  <Edit />
                 </el-icon>发布文章</el-menu-item>
               <el-menu-item index="/postvideo"><el-icon>
-                  <Plus />
+                  <VideoPlay />
                 </el-icon>发布视频</el-menu-item>
+              <el-menu-item index="/posttopic"><el-icon>
+                  <Plus />
+                </el-icon>发布自测题目</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
 
@@ -33,14 +36,17 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/articlemanager"><el-icon>
-                  <Picture />
+                  <Tickets />
                 </el-icon>管理文章</el-menu-item>
               <el-menu-item index="/videomanager"><el-icon>
-                  <StarFilled />
+                  <VideoPlay />
                 </el-icon>管理视频</el-menu-item>
               <el-menu-item index="/questionmanagement"><el-icon>
                   <StarFilled />
                 </el-icon>管理提问</el-menu-item>
+              <el-menu-item index="/topicmanagement"><el-icon>
+                  <DocumentCopy />
+                </el-icon>自测题目</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="4">
@@ -49,13 +55,16 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/tagmanager"><el-icon>
-                  <Menu />
+                  <PriceTag />
                 </el-icon>标签管理</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
-              <el-menu-item index="/reviewquestion"><el-icon>
-                  <Menu />
-                </el-icon>审核提问</el-menu-item>
+              <el-menu-item index="/reviewquestion"><el-icon><Select /></el-icon>审核提问</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <el-menu-item index="/topictypemanagement"><el-icon>
+                  <CollectionTag />
+                </el-icon>自测题目类型</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="5">

@@ -242,3 +242,100 @@ export const deleteQuestion = async (id) => {
         return false
     }
 }
+
+// 获取的topictype
+
+export const getType = async () => {
+    try {
+        const response = await axios.get('/api/topictype/')
+        if (response.data.success) {
+            return response.data.data
+        } else {
+            return null
+        }
+    } catch (error) {
+        return false
+    }
+}
+
+export const addTopic = async (title, type, solution) => {
+    // console.log(title, type, solution)
+    try {
+        const response = await axios({
+            method: 'post',
+            url: '/api/topic',
+            data: {
+                title,
+                type,
+                solution,
+            },
+        })
+        console.log(response.data)
+        return response.data.success
+    } catch (error) {
+        return false
+    }
+}
+
+export const getAllTopic = async (pageSize, currentPage) => {
+    try {
+        const response = await axios.get('/api/topic', {
+            params: {
+                pagesize: pageSize,
+                currentpage: currentPage,
+            },
+        })
+        if (response.data.success) {
+            return response.data.data
+        } else {
+            return null
+        }
+    } catch (error) {
+        return false
+    }
+}
+
+export const deleteTopic = async (id) => {
+    try {
+        const response = await axios({
+            method: 'delete',
+            url: '/api/topic/',
+            data: {
+                topicid: id,
+            },
+        })
+        return response.data.success
+    } catch (error) {
+        return false
+    }
+}
+
+export const addType = async (raw) => {
+    try {
+        const response = await axios({
+            method: 'post',
+            url: '/api/topictype',
+            data: {
+                name: raw.name,
+                describe: raw.describe,
+            },
+        })
+        return response.data.success
+    } catch (error) {
+        return false
+    }
+}
+export const delType = async (id) => {
+    try {
+        const response = await axios({
+            method: 'delete',
+            url: '/api/topictype',
+            data: {
+                id,
+            },
+        })
+        return response.data.success
+    } catch (error) {
+        return false
+    }
+}

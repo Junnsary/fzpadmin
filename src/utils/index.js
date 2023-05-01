@@ -8,4 +8,7 @@ export const pathMap = {
     index: '首页',
     reviewquestion: '审核提问',
     questionmanagement: '管理提问',
+    posttopic: '发布自测题目',
+    topicmanagement: '自测题目',
+    topictypemanagement: '自测题目类型',
 }
