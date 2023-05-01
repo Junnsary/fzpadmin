@@ -38,6 +38,9 @@
               <el-menu-item index="/videomanager"><el-icon>
                   <StarFilled />
                 </el-icon>管理视频</el-menu-item>
+              <el-menu-item index="/questionmanagement"><el-icon>
+                  <StarFilled />
+                </el-icon>管理提问</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="4">
@@ -48,9 +51,11 @@
               <el-menu-item index="/tagmanager"><el-icon>
                   <Menu />
                 </el-icon>标签管理</el-menu-item>
-              <!-- <el-menu-item index="/usermanager"><el-icon>
-                  <Goods />
-                </el-icon>用户管理</el-menu-item> -->
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <el-menu-item index="/reviewquestion"><el-icon>
+                  <Menu />
+                </el-icon>审核提问</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="5">

@@ -33,6 +33,16 @@ const routes = [
         name: 'postsuccess',
         component: () => import('../views/PostSuccess.vue'),
     },
+    {
+        path: '/reviewquestion',
+        name: 'reviewquestion',
+        component: () => import('../views/ReviewQuestion.vue'),
+    },
+    {
+        path: '/questionmanagement',
+        name: 'questionmanagement',
+        component: () => import('../views/QuestionManagement.vue'),
+    },
 ]
 
 const router = createRouter({

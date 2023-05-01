@@ -185,3 +185,60 @@ export const getQuantity = async () => {
         return false
     }
 }
+
+// -----------------------------------------------------------
+// 问答
+
+export const getAllQuestion = async (pageSize, currentPage, review) => {
+    try {
+        const response = await axios.get('/api/question/adminall', {
+            params: {
+                pagesize: pageSize,
+                currentpage: currentPage,
+                review,
+            },
+        })
+        if (response.data.success) {
+            return response.data.data
+        } else {
+            return null
+        }
+    } catch (error) {
+        return false
+    }
+}
+
+// 设置审核
+
+export const questionReview = async (id, code) => {
+    try {
+        const response = await axios({
+            method: 'post',
+            url: '/api/question/review',
+            data: {
+                questionid: id,
+                reviewcode: code,
+            },
+        })
+        return response.data.success
+    } catch (error) {
+        return false
+    }
+}
+
+// 删除提问
+
+export const deleteQuestion = async (id) => {
+    try {
+        const response = await axios({
+            method: 'delete',
+            url: '/api/question/',
+            data: {
+                questionid: id,
+            },
+        })
+        return response.data.success
+    } catch (error) {
+        return false
+    }
+}

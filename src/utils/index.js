@@ -6,4 +6,6 @@ export const pathMap = {
     tagmanager: '标签管理',
     adminpasswd: '修改密码',
     index: '首页',
+    reviewquestion: '审核提问',
+    questionmanagement: '管理提问',
 }
