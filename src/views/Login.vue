@@ -61,7 +61,7 @@ const submitForm = async () => {
         <div class="login-container">
             <div class="head">
                 <div class="name">
-                    <div class="title">大学生防诈骗交流平台</div>
+                    <div class="title">大学生校园防诈骗知识学习交流平台</div>
                     <div class="tips">后台管理系统</div>
                 </div>
             </div>
