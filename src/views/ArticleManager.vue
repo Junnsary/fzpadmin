@@ -1,6 +1,11 @@
 <template>
     <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
         :cell-style="{ textAlign: 'center' }">
+        <el-table-column label="序号">
+            <template #default="scope">
+                <span>{{ scope.row.num }}</span>
+            </template>
+        </el-table-column>
         <el-table-column label="编号">
             <template #default="scope">
                 <span>{{ scope.row.id }}</span>
@@ -90,24 +95,26 @@ const total = ref(0)
 const pageSize = ref(10)
 const currentPage = ref(1)
 
+
+
 const getArticlesTotal = async (size, page) => {
     const result = await getAllArticle(size, page)
     // console.log(result)
     articleTable.splice(0, articleTable.length)
-    console.log(result.articleList)
-    result.articleList.forEach(element => {
-        // console.log(typeof element.created_at)  string
-        console.log()
+    console.log(size, page)
+    // console.log(result.articleList)
+    result.articleList.forEach((v,i) => {
         articleTable.push({
-            id: element.id,
-            title: element.title,
-            content: element.content,
-            created_at: getFormatDate(element.created_at),
-            updated_at: getFormatDate(element.updated_at),
-            status: element.status,
-            type: trunKnowlegdeCase(element.tag.category),
-            tag: element.tag.name,
-            cover: `/uploads/images/${element.cover}`
+            num: (i + 1) + ((page-1)*size),
+            id: v.id,
+            title: v.title,
+            content: v.content,
+            created_at: getFormatDate(v.created_at),
+            updated_at: getFormatDate(v.updated_at),
+            status: v.status,
+            type: trunKnowlegdeCase(v.tag.category),
+            tag: v.tag.name,
+            cover: `/uploads/images/${v.cover}`
         })
     });
     total.value = result.total

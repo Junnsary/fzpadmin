@@ -1,6 +1,11 @@
 <template>
     <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
         :cell-style="{ textAlign: 'center' }">
+        <el-table-column label="序号">
+            <template #default="scope">
+                <span>{{ scope.row.num }}</span>
+            </template>
+        </el-table-column>
         <el-table-column label="编号">
             <template #default="scope">
                 <span>{{ scope.row.id }}</span>
@@ -45,9 +50,9 @@
     <!-- 对话框 -->
     <el-dialog v-model="dialogVisible" title="文章内容" width="30%" :before-close="handleClose" draggable top="12vh">
         <span class="text"><span class="stronge">题目：</span>{{ topicContent.title }}</span>
-        <div class="text"><span class="stronge">答案(红色为正确答案)：</span></div>
+        <div class="text"><span class="stronge">答案(绿色为正确答案)：</span></div>
         <div class="text" v-for="(temp, index) in  topicContent.solutions ">
-            <span :class="{ isAccurate: temp.accurate }">{{ index + 1 }}. {{ temp.content }}</span>
+            <span :class="{ isAccurate: temp.accurate }">{{ String.fromCharCode(index + ('A').charCodeAt(0)) }}. {{ temp.content }}</span>
         </div>
         <template #footer>
             <span class="dialog-footer">
@@ -74,13 +79,14 @@ const getTopicTotal = async (size, page) => {
     const result = await getAllTopic(size, page)
     questionTable.splice(0, questionTable.length) //删除当前的数据
     console.log(result)
-    result.topic.forEach(element => { //添加新的数据
+    result.topic.forEach((v,i) => { //添加新的数据
         questionTable.push({
-            id: element.topic.id,
-            title: truncateString(element.topic.title, 8),
-            content: { title: element.topic.title, solutions: element.solutions },
-            created_at: getFormatDate(element.topic.created_at),
-            topic_type: element.topic.topic_type.name
+            num: (i + 1) + ((page-1)*size),
+            id: v.topic.id,
+            title: truncateString(v.topic.title, 8),
+            content: { title: v.topic.title, solutions: v.solutions },
+            created_at: getFormatDate(v.topic.created_at),
+            topic_type: v.topic.topic_type.name
         })
     });
     total.value = result.total
@@ -147,7 +153,7 @@ const changePage = (num) => {
 
 <style scoped>
 .isAccurate {
-    color: red;
+    color: rgb(41, 145, 81);
     font-weight: bold;
     font-size: 18px;
 }

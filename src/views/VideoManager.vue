@@ -1,6 +1,11 @@
 <template>
     <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
         :cell-style="{ textAlign: 'center' }">
+        <el-table-column label="序号">
+            <template #default="scope">
+                <span>{{ scope.row.num }}</span>
+            </template>
+        </el-table-column>
         <el-table-column label="编号">
             <template #default="scope">
                 <span>{{ scope.row.id }}</span>
@@ -81,19 +86,20 @@ const getVideosTotal = async (size, page) => {
     const result = await getAllVideo(size, page)
     // console.log(result)
     articleTable.splice(0, articleTable.length)
-    result.articleList.forEach(element => {
+    result.articleList.forEach((v,i) => {
         // console.log(typeof element.created_at)  string
-        console.log(element)
+        console.log(v)
         articleTable.push({
-            id: element.id,
-            title: element.title,
-            content: element.file_name, //文件名字
-            created_at: getFormatDate(element.created_at),
-            updated_at: getFormatDate(element.updated_at),
-            status: element.status,
-            type: trunKnowlegdeCase(element.tag.category),
-            tag: element.tag.name,
-            cover: `/uploads/images/${element.cover}`
+            num: (i + 1) + ((page-1)*size),
+            id: v.id,
+            title: v.title,
+            content: v.file_name, //文件名字
+            created_at: getFormatDate(v.created_at),
+            updated_at: getFormatDate(v.updated_at),
+            status: v.status,
+            type: trunKnowlegdeCase(v.tag.category),
+            tag: v.tag.name,
+            cover: `/uploads/images/${v.cover}`
         })
     });
     total.value = result.total

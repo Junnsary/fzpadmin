@@ -314,7 +314,7 @@ export const addType = async (raw) => {
     try {
         const response = await axios({
             method: 'post',
-            url: '/api/user',
+            url: '/api/topictype',
             data: {
                 name: raw.name,
                 describe: raw.describe,

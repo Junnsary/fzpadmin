@@ -79,7 +79,7 @@ const onSubmit = async () => {
     if (topic.title === '') {
         vaildArr.push('题目')
     }
-    if (topic.title === '') {
+    if (topic.type === '') {
         vaildArr.push('类型')
     }
     let s = false
@@ -98,7 +98,6 @@ const onSubmit = async () => {
             type: 'warning',
         })
     } else {
-
         solution.forEach((v) => {
             if (solutionValue.value === v.label) {
                 v.accurate = 1
@@ -131,11 +130,11 @@ const onSubmit = async () => {
     }
 }
 
-const solutionValue = ref(1)
+const solutionValue = ref("A")
 
 const solution = reactive([
-    { label: 1, content: '', del: false },
-    { label: 2, content: '', del: false },
+    { label: "A", content: '', del: false },
+    { label: "B", content: '', del: false },
 ])
 
 const solutionChange = () => {
@@ -147,7 +146,7 @@ const solutionChange = () => {
 const addSolution = () => {
     const s = solution[solution.length - 1]
     solution.push({
-        label: s.label + 1, content: '', del: true
+        label:String.fromCharCode(s.label.charCodeAt(0) + 1) , content: '', del: true
     })
 }
 
@@ -162,7 +161,7 @@ const delSolution = (label) => {
 
     if (solution.length >= (index + 1)) {
         for (let i = index; i < solution.length; i++) {
-            solution[i].label -= 1
+            solution[i].label = String.fromCharCode(solution[i].label.charCodeAt(0) - 1)
         }
     }
 }
@@ -185,36 +184,7 @@ const state = reactive({
     },
 })
 
-const submitPass = () => {
-    passRef.value.validate((vaild) => {
-        if (vaild) {
-            const info = getLoginInfo();
-            const passwd = toRaw(state.passForm)
-            modifPasswd({ id: info.id, oldpasswd: passwd.oldpass, newpasswd: passwd.newpass })
-                .then(success => {
-                    passRef.value.resetFields()
-                    if (success) {
-                        ElMessage({
-                            message: '修改成功！',
-                            type: 'success',
-                        })
-                    } else {
-                        ElMessage({
-                            message: '原密码错误！请重新输入',
-                            type: 'error',
-                        })
-                    }
-                }).catch(() => {
-                    ElMessage({
-                        message: '修改失败',
-                        type: 'error',
-                    })
-                })
-        } else {
-            console.log('验证不通过！')
-        }
-    })
-}
+
 </script>
   
 <style >

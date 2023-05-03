@@ -1,6 +1,11 @@
 <template>
     <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
         :cell-style="{ textAlign: 'center' }">
+        <el-table-column label="序号">
+            <template #default="scope">
+                <span>{{ scope.row.num }}</span>
+            </template>
+        </el-table-column>
         <el-table-column label="编号">
             <template #default="scope">
                 <span>{{ scope.row.id }}</span>
@@ -73,13 +78,14 @@ const getQuestionsTotal = async (size, page) => {
     const result = await getAllQuestion(size, page, "1,2")
     questionTable.splice(0, questionTable.length) //删除当前的数据
 
-    result.articleList.forEach(element => { //添加新的数据
+    result.articleList.forEach((v,i) => { //添加新的数据
         questionTable.push({
-            id: element.id,
-            content: element.content,
-            review: element.review,
-            created_at: getFormatDate(element.created_at),
-            user_id: element.user_id
+            num: (i + 1) + ((page-1)*size),
+            id: v.id,
+            content: v.content,
+            review: v.review,
+            created_at: getFormatDate(v.created_at),
+            user_id: v.user_id
         })
     });
     total.value = result.total
