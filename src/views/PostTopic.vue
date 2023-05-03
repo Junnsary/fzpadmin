@@ -19,18 +19,18 @@
             <div style="flex-grow: 1;padding-left: 20px;">
                 <el-radio-group style="display: flex; flex-direction: column; width: 100%;" v-model="solutionValue"
                     @change="solutionChange">
-                    <div v-for="temp in solution" :key="temp.label"
+                    <div v-for="temp in solution" :key="temp.letter"
                         style="display: flex;width: 100%; margin-top: 10px; justify-content: flex-start;">
 
                         <el-col :span="1">
-                            <el-radio :label="temp.label" />
+                            <el-radio :label="temp.letter" />
                         </el-col>
 
                         <el-col :span="12">
                             <el-input v-model="temp.content" />
                         </el-col>
                         <el-col :span="4">
-                            <el-button v-if="temp.del" style="margin-left: 10px;" @click="delSolution(temp.label)">
+                            <el-button v-if="temp.del" style="margin-left: 10px;" @click="delSolution(temp.letter)">
                                 <el-icon>
                                     <Close />
                                 </el-icon>
@@ -99,7 +99,7 @@ const onSubmit = async () => {
         })
     } else {
         solution.forEach((v) => {
-            if (solutionValue.value === v.label) {
+            if (solutionValue.value === v.letter) {
                 v.accurate = 1
             } else {
                 v.accurate = 0
@@ -118,8 +118,8 @@ const onSubmit = async () => {
             topic.title = ''
             topic.type = ''
             solution.splice(0, solution.length)
-            solution.push({ label: 1, content: '', del: false })
-            solution.push({ label: 2, content: '', del: false })
+            solution.push({ letter: "A", content: '', del: false })
+            solution.push({ letter: "B", content: '', del: false })
         } else {
             ElMessage({
                 showClose: true,
@@ -133,8 +133,8 @@ const onSubmit = async () => {
 const solutionValue = ref("A")
 
 const solution = reactive([
-    { label: "A", content: '', del: false },
-    { label: "B", content: '', del: false },
+    { letter: "A", content: '', del: false },
+    { letter: "B", content: '', del: false },
 ])
 
 const solutionChange = () => {
@@ -146,14 +146,14 @@ const solutionChange = () => {
 const addSolution = () => {
     const s = solution[solution.length - 1]
     solution.push({
-        label:String.fromCharCode(s.label.charCodeAt(0) + 1) , content: '', del: true
+        letter:String.fromCharCode(s.letter.charCodeAt(0) + 1) , content: '', del: true
     })
 }
 
 const delSolution = (label) => {
     let index
     solution.forEach((v, i, e) => {
-        if (v.label === label) {
+        if (v.letter === label) {
             index = i
             solution.splice(i, 1)
         }
