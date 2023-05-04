@@ -29,12 +29,12 @@
         </el-table-column>
         <el-table-column label="操作">
             <template #default="scope">
-                <el-popconfirm title="确认删除？" @confirm="reviewSuccess(scope.row)">
+                <el-popconfirm title="确认？" @confirm="reviewSuccess(scope.row)">
                     <template #reference>
                         <el-button size="small" type="danger">通过</el-button>
                     </template>
                 </el-popconfirm>
-                <el-popconfirm title="确认删除？" @confirm="reviewFail(scope.row)">
+                <el-popconfirm title="确认？" @confirm="reviewFail(scope.row)">
                     <template #reference>
                         <el-button size="small" type="danger">不通过</el-button>
                     </template>
