@@ -74,8 +74,7 @@ const submitForm = async () => {
                 </el-form-item>
                 <el-form-item>
                     <el-button style="margin-top:50px; height: 40px;font-weight: bold;font-size: 16px; width: 100%"
-                        type="primary" @click="submitForm">立 即 登
-                        录</el-button>
+                        type="primary" @click="submitForm">立 即 登 录</el-button>
                 </el-form-item>
             </el-form>
         </div>

@@ -5,6 +5,8 @@ const num = reactive({
     article: 0,
     video: 0,
     user: 0,
+    question: 0,
+    topic: 0
 })
 
 onMounted(async () => {
@@ -13,6 +15,8 @@ onMounted(async () => {
     num.article = result.article
     num.video = result.video
     num.user = result.user
+    num.topic = result.topic
+    num.question = result.question
 })
 
 </script>
@@ -55,6 +59,34 @@ onMounted(async () => {
                 <div class="card-body">
                     <img class="show-img" src="@assets/user.png" alt="">
                     <span class="show-num">{{ num.user }}</span>
+                </div>
+            </el-card>
+        </el-col>
+    </el-row>
+    <el-row style="margin-top: 50px;">
+        <el-col class="col-card" :xs="24" :sm="24" :md="8">
+            <el-card class="box-card">
+                <template #header>
+                    <div class="card-header">
+                        <span>用户提问数量</span>
+                    </div>
+                </template>
+                <div class="card-body">
+                    <img class="show-img" src="@assets/question_admin.png" alt="">
+                    <span class="show-num">{{ num.question }}</span>
+                </div>
+            </el-card>
+        </el-col>
+        <el-col class="col-card" :xs="24" :sm="24" :md="8">
+            <el-card class="box-card">
+                <template #header>
+                    <div class="card-header">
+                        <span>自测题目数量</span>
+                    </div>
+                </template>
+                <div class="card-body">
+                    <img class="show-img" src="@assets/test_admin.png" alt="">
+                    <span class="show-num">{{ num.topic }}</span>
                 </div>
             </el-card>
         </el-col>
