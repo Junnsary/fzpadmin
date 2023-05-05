@@ -14,7 +14,7 @@
                 dialogAddVisible = true">新增标签</el-button>
         </div>
         <el-card class="box-card">
-            <el-tag v-for="tag in tags" :key="tag.name" class="mx-1 tag" closable :type="tag.type"
+            <el-tag style="cursor: pointer;" v-for="tag in tags" :key="tag.name" class="mx-1 tag" :type="tag.type"
                 @close="deleteTag(tag.id, tag.name)">
                 {{ tag.name }}
             </el-tag>
@@ -199,7 +199,7 @@ watchEffect(async () => {
 //删除标签
 const deleteTag = (id, name) => {
     console.log(id)
-    ElMessageBox.confirm(`确认删除 [${name}] 该标签？`, '提示', {
+    ElMessageBox.confirm(`确认删除 [${name}] 该标签？,这将会删除该标签下的内容`, '提示', {
         // if you want to disable its autofocus
         // autofocus: false,
         confirmButtonText: '确认',

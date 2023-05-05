@@ -12,7 +12,7 @@
     </div>
 
 
-    <el-dialog v-model="dialogAddVisible" title="新增标签" width="400px" top="20vh" draggable>
+    <el-dialog v-model="dialogAddVisible" title="新增标签" width="400px" top="20vh" draggable @close="closeForm()">
         <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
             :size="formSize" status-icon>
             <el-form-item label="类型名字" prop="name">
@@ -43,6 +43,7 @@ import { getType, addType, delType } from '../axios'
 
 onMounted(() => {
     showType()
+    console.log(ruleFormRef)
 })
 
 
@@ -51,6 +52,8 @@ const dialogAddVisible = ref(false)
 
 //form
 const ruleFormRef = ref()
+
+
 const ruleForm = reactive({
     name: '',
     describe: ''
@@ -129,21 +132,27 @@ const showType = async () => {
 }
 
 
-//删除标签
+//打开
 const typeOpen = (typeInfo) => {
-    ruleFormRef.value.clearValidate()
-    dialogAddVisible.value = true
-    addOrOpen.value = false
+    try {
+        ruleFormRef.value.clearValidate()
+    }catch{
+        console.log('error clearvalidate')
+    }finally{
+        dialogAddVisible.value = true
+        addOrOpen.value = false
 
-    ruleForm.name = typeInfo.name
-    ruleForm.describe = typeInfo.describe
-    currentId.value = typeInfo.id
+        ruleForm.name = typeInfo.name
+        ruleForm.describe = typeInfo.describe
+        currentId.value = typeInfo.id
+    }
+  
 }
 
 const currentId = ref('')
 
 const deleteType = () => {
-    ElMessageBox.confirm(`确认删除 [${ruleForm.name}] 该类型？`, '提示', {
+    ElMessageBox.confirm(`确认删除 [${ruleForm.name}] 该类型？，这将会删除该类型的全部自测题目`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
     }).then(async ({ value }) => {
