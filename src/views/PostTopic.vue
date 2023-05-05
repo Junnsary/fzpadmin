@@ -120,6 +120,7 @@ const onSubmit = async () => {
             solution.splice(0, solution.length)
             solution.push({ letter: "A", content: '', del: false })
             solution.push({ letter: "B", content: '', del: false })
+            solutionValue.value = "A"
         } else {
             ElMessage({
                 showClose: true,
