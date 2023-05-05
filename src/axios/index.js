@@ -45,7 +45,6 @@ export const postVideo = async (data, cb) => {
             return false
         }
     } catch (error) {
-        // console.error(error)
         return false
     }
 }

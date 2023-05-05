@@ -48,7 +48,7 @@ const getUploadCover = (raw) => {
     // console.log(fileRaw.value)
 }
 
-//发布文章
+
 const postVideoClick = async () => {
     const adminInfo = getLoginInfo()
     const vaildArr = []
@@ -77,16 +77,17 @@ const postVideoClick = async () => {
         formData.append('video', videoRaw.value)
         // console.log(title, managerid, tagid, fileRaw.value, videoRaw.value)
         videoProgress.value = true
+        console.log('发布之前')
         const result = await postVideo(formData, (num) => {
             videoProgressLoaded.value = num
         })
+        console.log('发布之后')
         if (result) {
             ElMessage({
                 showClose: true,
                 message: '发布视频成功.',
                 type: 'success',
             })
-            // router.push('/videomanager')
         } else {
             ElMessage({
                 showClose: true,
@@ -176,7 +177,7 @@ watch(videoProgressLoaded, (newValue, oldValue) => {
                 <template #tip>
                     <div class="el-upload__tip">
                         <!-- jpg/png files with a size less than 500kb -->
-                        上传一个不超过50MB的Mp4类型的视频
+                        上传一个不超过100MB的Mp4类型的视频
                     </div>
                 </template>
                 <el-progress v-if="videoProgress" style="margin-top: 20px;" :text-inside="true" :stroke-width="24"
