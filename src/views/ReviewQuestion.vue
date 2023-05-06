@@ -1,6 +1,13 @@
 <template>
-    <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
+    <el-button  style="margin-bottom: 15px;" type="primary"  @click="handleRefresh">刷新</el-button>
+    
+    <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }" :default-sort="{ prop: 'num', order: 'ascending' }"
         :cell-style="{ textAlign: 'center' }">
+        <el-table-column label="序号"  sortable prop="num">
+            <template #default="scope">
+                <span>{{ scope.row.num }}</span>
+            </template>
+        </el-table-column>
         <el-table-column label="编号">
             <template #default="scope">
                 <span>{{ scope.row.id }}</span>
@@ -77,8 +84,9 @@ const getQuestionsTotal = async (size, page) => {
     const result = await getAllQuestion(size, page, 0)
     questionTable.splice(0, questionTable.length) //删除当前的数据
 
-    result.articleList.forEach(element => { //添加新的数据
+    result.articleList.forEach((element,i) => { //添加新的数据
         questionTable.push({
+            num: i + 1,
             id: element.id,
             content: element.content,
             created_at: getFormatDate(element.created_at),
@@ -86,6 +94,16 @@ const getQuestionsTotal = async (size, page) => {
         })
     });
     total.value = result.total
+}
+
+
+const handleRefresh = async () => { 
+    await getQuestionsTotal(pageSize.value, currentPage.value)
+    ElMessage({
+            showClose: true,
+            message: '刷新成功！',
+            type: 'success',
+    })
 }
 
 onMounted(async () => {

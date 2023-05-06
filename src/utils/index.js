@@ -12,3 +12,11 @@ export const pathMap = {
     topicmanagement: '自测题目',
     topictypemanagement: '自测题目类型',
 }
+
+export function truncateString(str, num) {
+    if (str.length > num) {
+        return str.slice(0, num) + "...";
+    } else {
+        return str;
+    }
+}

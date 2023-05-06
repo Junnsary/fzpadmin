@@ -1,7 +1,9 @@
 <template>
-    <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
+    <el-button  style="margin-bottom: 15px;" type="primary"  @click="handleRefresh">刷新</el-button>
+    <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }" :default-sort="{ prop: 'num', order: 'ascending' }"
         :cell-style="{ textAlign: 'center' }">
-        <el-table-column label="序号">
+
+        <el-table-column label="序号" sortable  prop="num">
             <template #default="scope">
                 <span>{{ scope.row.num }}</span>
             </template>
@@ -95,6 +97,15 @@ onMounted(async () => {
     getQuestionsTotal(pageSize.value, currentPage.value)  //初始化的时候获取
 })
 
+
+const handleRefresh = async () => { 
+    await getQuestionsTotal(pageSize.value, currentPage.value)
+    ElMessage({
+            showClose: true,
+            message: '刷新成功！',
+            type: 'success',
+    })
+}
 
 // 文章列表的表格
 

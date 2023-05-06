@@ -1,24 +1,26 @@
 <template>
-    <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
-        :cell-style="{ textAlign: 'center' }">
-        <el-table-column label="序号">
+    
+    <el-button  style="margin-bottom: 15px;" type="primary"  @click="handleRefresh">刷新</el-button>
+    <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }" :default-sort="{ prop: 'num', order: 'ascending' }"
+        :cell-style="{ textAlign: 'center' }" >
+        <el-table-column label="序号" :width="90" sortable prop="num">
             <template #default="scope">
                 <span>{{ scope.row.num }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="编号">
+        <el-table-column label="编号" :width="90">
             <template #default="scope">
                 <span>{{ scope.row.id }}</span>
             </template>
         </el-table-column>
         <el-table-column label="标题">
             <template #default="scope">
-                <span>{{ scope.row.title }}</span>
+                <span>{{ truncateString(scope.row.title, 8) }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="内容">
+        <el-table-column label="内容" :width="100">
             <template #default="scope">
-                <el-button @click="previewCotent(scope.row.content)" size="small" type="primary">查看内容</el-button>
+                <el-button @click="previewCotent(scope.row.content, scope.row.title)" size="small" type="primary">查看详细</el-button>
                 <!-- <span>{{ scope.row.content }}</span> -->
             </template>
         </el-table-column>
@@ -72,7 +74,7 @@
     </div>
 
     <!-- 对话框 -->
-    <el-dialog v-model="dialogVisible" title="文章内容" width="50%" :before-close="handleClose" draggable top="8vh">
+    <el-dialog v-model="dialogVisible" title="文章内容" width="50%" :before-close="handleClose" top="8vh">
         <span v-html="artilceContent"></span>
         <template #footer>
             <span class="dialog-footer">
@@ -89,6 +91,7 @@ import { ref, onMounted, reactive, toRaw } from 'vue'
 import { getAllArticle, delArticle } from '../axios'
 import { getFormatDate } from '../utils/date'
 import { trunKnowlegdeCase } from '../utils/turn'
+import { truncateString } from '../utils'
 //获取文章列表表格数据
 
 const total = ref(0)
@@ -96,6 +99,14 @@ const pageSize = ref(10)
 const currentPage = ref(1)
 
 
+const handleRefresh = async () => { 
+    await getArticlesTotal(pageSize.value, currentPage.value)
+    ElMessage({
+            showClose: true,
+            message: '刷新成功！',
+            type: 'success',
+    })
+}
 
 const getArticlesTotal = async (size, page) => {
     const result = await getAllArticle(size, page)
@@ -159,9 +170,9 @@ const handleClose = (done) => {
     artilceContent.value = ''
 }
 
-const previewCotent = (content) => {
+const previewCotent = (content, title) => {
     dialogVisible.value = true
-    artilceContent.value = content
+    artilceContent.value = `<p style="font-size:28px; font-weight:bold;">标题：${title}</p>${content}`
 }
 
 //分页
@@ -177,4 +188,9 @@ const changePage = (num) => {
 //     display: flex;
 //     flex-direction: column;
 // }
+
+.t{
+    text-align: center;
+}
+
 </style>

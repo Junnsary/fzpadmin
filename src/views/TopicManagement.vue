@@ -1,7 +1,8 @@
 <template>
-    <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
+    <el-button  style="margin-bottom: 15px;" type="primary"  @click="handleRefresh">刷新</el-button>
+    <el-table border :data="questionTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }" :default-sort="{ prop: 'num', order: 'ascending' }"
         :cell-style="{ textAlign: 'center' }">
-        <el-table-column label="序号">
+        <el-table-column label="序号" sortable prop="num">
             <template #default="scope">
                 <span>{{ scope.row.num }}</span>
             </template>
@@ -68,6 +69,7 @@
 import { ref, onMounted, reactive, toRaw } from 'vue'
 import { deleteTopic, getAllTopic } from '../axios'
 import { getFormatDate } from '../utils/date'
+import { truncateString } from '../utils'
 
 //获取文章列表表格数据
 
@@ -92,17 +94,20 @@ const getTopicTotal = async (size, page) => {
     total.value = result.total
 }
 
-function truncateString(str, num) {
-    if (str.length > num) {
-        return str.slice(0, num) + "...";
-    } else {
-        return str;
-    }
-}
+
 
 onMounted(async () => {
     getTopicTotal(pageSize.value, currentPage.value)  //初始化的时候获取
 })
+
+const handleRefresh = async () => { 
+    await getTopicTotal(pageSize.value, currentPage.value)
+    ElMessage({
+            showClose: true,
+            message: '刷新成功！',
+            type: 'success',
+    })
+}
 
 
 // 文章列表的表格

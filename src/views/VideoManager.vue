@@ -1,24 +1,26 @@
 <template>
-    <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }"
+    <el-button  style="margin-bottom: 15px;" type="primary"  @click="handleRefresh">刷新</el-button>
+
+    <el-table border :data="articleTable" style="width: 100%" :header-cell-style="{ textAlign: 'center' }" :default-sort="{ prop: 'num', order: 'ascending' }"
         :cell-style="{ textAlign: 'center' }">
-        <el-table-column label="序号">
+        <el-table-column label="序号" :width="90"  sortable prop="num">
             <template #default="scope">
                 <span>{{ scope.row.num }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="编号">
+        <el-table-column label="编号" :width="90">
             <template #default="scope">
                 <span>{{ scope.row.id }}</span>
             </template>
         </el-table-column>
         <el-table-column label="标题">
             <template #default="scope">
-                <span>{{ scope.row.title }}</span>
+                <span>{{ truncateString(scope.row.title, 8) }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="视频">
+        <el-table-column label="视频" :width="100">
             <template #default="scope">
-                <el-button @click="previewCotent(scope.row.content, scope.row.cover)" size="small"
+                <el-button @click="previewCotent(scope.row.content, scope.row.cover, scope.row.title)" size="small"
                     type="primary">查看视频</el-button>
                 <!-- <span>{{ scope.row.content }}</span> -->
             </template>
@@ -66,6 +68,7 @@
     </div>
     <!-- 对话框 -->
     <el-dialog v-model="dialogVisible" title="视频" width="40%" :before-close="handleClose" draggable top="8vh">
+        <p style="font-size:28px; font-weight:bold;">{{ videoTitle }}</p>
         <vue3VideoPlay v-if="videoPause" v-bind="options" />
         <!-- :poster="videoPoster" /> -->
     </el-dialog>
@@ -76,11 +79,13 @@ import { ref, onMounted, reactive } from 'vue'
 import { getAllVideo, delVideo } from '../axios'
 import { getFormatDate } from '../utils/date'
 import { trunKnowlegdeCase } from '../utils/turn'
+import { truncateString } from '../utils'
 //获取文章列表表格数据
 
 const total = ref(0)
 const pageSize = ref(10)
 const currentPage = ref(1)
+const videoTitle = ref('')
 
 const getVideosTotal = async (size, page) => {
     const result = await getAllVideo(size, page)
@@ -109,6 +114,14 @@ onMounted(async () => {
     getVideosTotal(pageSize.value, currentPage.value)
 })
 
+const handleRefresh = async () => { 
+    await getVideosTotal(pageSize.value, currentPage.value)
+    ElMessage({
+            showClose: true,
+            message: '刷新成功！',
+            type: 'success',
+    })
+}
 
 // 文章列表的表格
 
@@ -141,9 +154,10 @@ const dialogVisible = ref(false)
 const handleClose = (done) => {
     done()
     videoPause.value = false
+    dialogVisible.value = false
 }
 
-const previewCotent = (content, cover) => {
+const previewCotent = (content, cover, title) => {
     // console.log(content)
     videoPause.value = true
     dialogVisible.value = true
@@ -151,6 +165,7 @@ const previewCotent = (content, cover) => {
     const BASE_URL = "http://localhost:3000/uploads/videos/"
     options.src = `/uploads/videos/${content}`
     // options.value = `${BASE_URL}${cover}`
+    videoTitle.value = title
 }
 
 //分页
