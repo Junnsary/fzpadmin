@@ -53,7 +53,7 @@
     </div>
 
     <!-- 对话框 -->
-    <el-dialog v-model="dialogVisible" title="文章内容" width="50%" :before-close="handleClose" draggable top="8vh">
+    <el-dialog v-model="dialogVisible" title="提问内容" width="50%" :before-close="handleClose" draggable top="8vh">
         <span v-html="artilceContent"></span>
         <template #footer>
             <span class="dialog-footer">

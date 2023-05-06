@@ -49,11 +49,11 @@
     </div>
 
     <!-- 对话框 -->
-    <el-dialog v-model="dialogVisible" title="文章内容" width="30%" :before-close="handleClose" draggable top="12vh">
+    <el-dialog v-model="dialogVisible" title="题目内容" width="30%" :before-close="handleClose" draggable top="12vh">
         <span class="text"><span class="stronge">题目：</span>{{ topicContent.title }}</span>
         <div class="text"><span class="stronge">答案(绿色为正确答案)：</span></div>
         <div class="text" v-for="(temp, index) in  topicContent.solutions ">
-            <span :class="{ isAccurate: temp.accurate }">{{ String.fromCharCode(index + ('A').charCodeAt(0)) }}. {{ temp.content }}</span>
+            <span :class="{ isAccurate: temp.accurate }">{{ temp.letter_num }}. {{ temp.content }}</span>
         </div>
         <template #footer>
             <span class="dialog-footer">
@@ -85,6 +85,7 @@ const getTopicTotal = async (size, page) => {
         questionTable.push({
             num: (i + 1) + ((page-1)*size),
             id: v.topic.id,
+            letter_num: v.letter_num,
             title: truncateString(v.topic.title, 8),
             content: { title: v.topic.title, solutions: v.solutions },
             created_at: getFormatDate(v.topic.created_at),
