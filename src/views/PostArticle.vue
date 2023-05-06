@@ -80,7 +80,7 @@ editorConfig.MENU_CONF['uploadImage'] = {
     // withCredentials: true,
 
     // 超时时间，默认为 10 秒
-    timeout: 5 * 1000, // 5 秒
+    timeout: 60 * 1000, // 5 秒
 
     // 上传之前触发
     onBeforeUpload(file) { // TS 语法
