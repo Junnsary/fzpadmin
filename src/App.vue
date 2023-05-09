@@ -46,7 +46,7 @@
                 </el-icon>管理提问</el-menu-item>
               <el-menu-item index="/topicmanagement"><el-icon>
                   <DocumentCopy />
-                </el-icon>自测题目</el-menu-item>
+                </el-icon>管理自测题目</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="4">
@@ -56,7 +56,7 @@
             <el-menu-item-group>
               <el-menu-item index="/tagmanager"><el-icon>
                   <PriceTag />
-                </el-icon>标签管理</el-menu-item>
+                </el-icon>管理标签</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group>
               <el-menu-item index="/reviewquestion"><el-icon><Select /></el-icon>审核提问</el-menu-item>
@@ -64,7 +64,7 @@
             <el-menu-item-group>
               <el-menu-item index="/topictypemanagement"><el-icon>
                   <CollectionTag />
-                </el-icon>自测题目类型</el-menu-item>
+                </el-icon>管理自测题目类型</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="5">
