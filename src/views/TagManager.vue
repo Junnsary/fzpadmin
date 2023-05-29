@@ -28,7 +28,7 @@
 
             <el-form-item label="标签区域" prop="category">
                 <el-select v-model="ruleForm.category" placeholder="选择标签区域">
-                    <el-option label="知识区" value="knowledge" />
+                    <el-option label="学习区" value="knowledge" />
                     <el-option label="案例区" value="case" />
                 </el-select>
             </el-form-item>
