@@ -49,6 +49,8 @@ const getUploadCover = (raw) => {
 }
 
 
+const loading = ref()
+
 const postVideoClick = async () => {
     const adminInfo = getLoginInfo()
     const vaildArr = []
@@ -88,6 +90,7 @@ const postVideoClick = async () => {
                 message: '发布视频成功.',
                 type: 'success',
             })
+            loading.value.close()
             router.push('/postsuccess/video')
         } else {
             ElMessage({
@@ -147,7 +150,7 @@ watch(videoProgressLoaded, (newValue, oldValue) => {
         //     router.push('/postsuccess/video')
         // }, 1500);
 
-        ElLoading.service({
+        loading.value = ElLoading.service({
             lock: true,
             text: '发布成功，正在跳转...',
             background: 'rgba(0, 0, 0, 0.7)',
