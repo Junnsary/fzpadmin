@@ -165,6 +165,7 @@ watch(videoProgressLoaded, (newValue, oldValue) => {
             </el-col>
         </el-row>
 
+        <!-- 上传视频组件 -->
         <div class="uploadUpload">
             <el-upload class="upload-demo" drag action="#" :auto-upload="false" limit="1"
                 :on-change="(file, files) => onVideoChange(file, files)"
