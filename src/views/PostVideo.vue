@@ -88,6 +88,7 @@ const postVideoClick = async () => {
                 message: '发布视频成功.',
                 type: 'success',
             })
+            router.push('/postsuccess/video')
         } else {
             ElMessage({
                 showClose: true,
@@ -142,9 +143,16 @@ watch(videoProgressLoaded, (newValue, oldValue) => {
     console.log('old:', oldValue)
     console.log('new:', newValue)
     if (newValue.toString() === '100') {
-        setTimeout(() => {
-            router.push('/postsuccess/video')
-        }, 1500);
+        // setTimeout(() => {
+        //     router.push('/postsuccess/video')
+        // }, 1500);
+
+        ElLoading.service({
+            lock: true,
+            text: '发布成功，正在跳转...',
+            background: 'rgba(0, 0, 0, 0.7)',
+        })
+
     }
 })
 
